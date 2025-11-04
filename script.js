@@ -178,8 +178,6 @@ if ('serviceWorker' in navigator) {
 }
 
 /** 如果是獨立模式，則重定向 */
-alert(window.matchMedia('(display-mode: standalone)').matches)
-alert(window.navigator.standalone)
 if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
 	btnDl.classList.add('d-none')
 	redirect();
