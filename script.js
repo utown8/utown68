@@ -10,6 +10,7 @@ const dom = {
     overlay: document.getElementById('overlay'),
     popup01: document.getElementById('popup01'),
     popupCenter: document.getElementById('popup_center'),
+	btnDl: document.getElementById('popupButton')
 }
 const options = {
 	userVisibleOnly: true,
@@ -33,7 +34,7 @@ dom.btn.addEventListener('click', subscribeUser);
 /**
  * 步驟 1：點擊按鈕 → 顯示 popup01
  */
-document.getElementById('popupButton').addEventListener('click', function (e) {
+dom.btnDl.addEventListener('click', function (e) {
 	e.stopPropagation();
 	if(!iOS()){
 		deferredPromptAccept()
@@ -178,6 +179,7 @@ if ('serviceWorker' in navigator) {
 
 /** 如果是獨立模式，則重定向 */
 if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+	btnDl.classList.add('d-none')
 	redirect();
 }
 
