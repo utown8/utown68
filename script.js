@@ -1,5 +1,5 @@
 const publicVapidKey = 'BJ5lPY0qjF1Tx9v9AvS7ajodgmXdmOCiPwpROPmBMY2Jk3DRaxCe6q8NoW8vS592V0-kec77xMPO514qf5AcVk4';
-const host = 'https://u.town';
+const host = 'https://stage.usdt.town';
 const uid = generateUUID();
 const dom = {
 	btn: document.querySelector('.btn-go'),
@@ -26,6 +26,9 @@ async function registerServiceWorker() {
 	}
 }
 
+dom.btn.addEventListener('click', function () {
+	window.location.href = host;
+})
 /**
  * 步驟 1：點擊按鈕 → 顯示 popup01
  */
