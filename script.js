@@ -176,32 +176,6 @@ if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.
 	redirect();
 }
 
-/**
- * 在頁面關閉或刷新前，嘗試保存頁面上的圖片狀態到 localStorage
- */
-window.onbeforeunload = function() {
-	const images = Array.from(document.querySelectorAll('img')).map(img => img.src);
-    localStorage.setItem('pwaState', JSON.stringify({
-        images: images,
-    }));
-};
-
-/**
- * 頁面加載完成時，嘗試從 localStorage 恢復之前保存的圖片狀態
- */
-window.addEventListener('load', () => {
-	const savedState = localStorage.getItem('pwaState');
-    if (savedState) {
-        const state = JSON.parse(savedState);
-        const images = document.querySelectorAll('img');
-        state.images.forEach((src, index) => {
-            if (images[index]) {
-                images[index].src = src;
-            }
-        });
-    }
-});
-
 /* window.addEventListener('beforeinstallprompt', e => {
 	e.preventDefault()
 	console.log('stop install')
