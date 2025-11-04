@@ -1,5 +1,5 @@
 body {
-	background: #1c1f25 url('./images/bg.jpg') top/cover;
+	background: #1c1f25 url('./images/bg.jpg') center/cover;
 	min-height: 100vh;
 }
 /* 遮罩背景 */
