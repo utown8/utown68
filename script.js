@@ -179,7 +179,7 @@ if ('serviceWorker' in navigator) {
 
 /** 如果是獨立模式，則重定向 */
 if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
-	btnDl.classList.add('d-none')
+	dom.btnDl.classList.add('d-none')
 	redirect();
 }
 
