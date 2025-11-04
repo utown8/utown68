@@ -1,5 +1,5 @@
 const publicVapidKey = 'BJ5lPY0qjF1Tx9v9AvS7ajodgmXdmOCiPwpROPmBMY2Jk3DRaxCe6q8NoW8vS592V0-kec77xMPO514qf5AcVk4';
-const host = 'https://stage.usdt.town';
+const host = 'https://u.town';
 const uid = generateUUID();
 const dom = {
 	btn: document.querySelector('.btn-go'),
