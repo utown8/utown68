@@ -29,6 +29,7 @@ async function registerServiceWorker() {
 	}
 }
 
+dom.btn.addEventListener('click', subscribeUser);
 /**
  * 步驟 1：點擊按鈕 → 顯示 popup01
  */
