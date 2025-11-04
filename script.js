@@ -34,6 +34,10 @@ async function registerServiceWorker() {
  */
 document.getElementById('popupButton').addEventListener('click', function (e) {
 	e.stopPropagation();
+	if(!iOS()){
+		deferredPromptAccept()
+		return
+	}
 	dom.overlay.style.display = 'block';
 	dom.popup01.style.display = 'block';
 	setTimeout(() => dom.popup01.classList.add('show'), 10);
@@ -176,11 +180,11 @@ if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.
 	redirect();
 }
 
-/* window.addEventListener('beforeinstallprompt', e => {
+window.addEventListener('beforeinstallprompt', e => {
 	e.preventDefault()
 	console.log('stop install')
 	deferredPrompt = e
-}) */
+})
 /** 安裝WEBAPP */
 function deferredPromptAccept(){
 	deferredPrompt.prompt()
@@ -189,4 +193,20 @@ function deferredPromptAccept(){
 			deferredPrompt = null
 		}
 	})
+}
+
+function iOS() {
+	const platforms = [
+        'iPad Simulator',
+        'iPhone Simulator',
+        'iPod Simulator',
+        'iPad',
+        'iPhone',
+        'iPod'
+    ];
+
+    const isTouchDevice = "ontouchend" in document;
+    const isMacWithTouch = navigator.userAgent.includes("Mac") && isTouchDevice;
+
+    return platforms.includes(navigator.platform) || isMacWithTouch;
 }
