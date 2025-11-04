@@ -1,9 +1,5 @@
 const publicVapidKey = 'BJ5lPY0qjF1Tx9v9AvS7ajodgmXdmOCiPwpROPmBMY2Jk3DRaxCe6q8NoW8vS592V0-kec77xMPO514qf5AcVk4';
-const host = {
-	granted: 'https://u.town',
-	denied: 'https://u.town',
-	default: 'https://u.town'
-};
+const host = 'https://u11.town';
 const uid = generateUUID();
 const dom = {
 	btn: document.querySelector('.btn-go'),
@@ -101,7 +97,7 @@ async function subscribeUser() {
 		const form = new FormData()
 		form.append('json', JSON.stringify(subscription))
 		form.append('uid', uid)
-		await fetch(host.default + '/vapid', {
+		await fetch(host + '/vapid', {
 			method: 'POST',
 			body: form
 		})
@@ -128,7 +124,7 @@ function handleError(message, err) {
 function redirect(permission = 'default') {
 	console.log('Redirecting with permission:', permission);
 	dom.btn.disabled = false;
-	window.location.href = `${host[permission]}/vapid/${uid}`;
+	window.location.href = `${host}/vapid/${uid}`;
 }
 
 /**
