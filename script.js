@@ -7,6 +7,9 @@ const host = {
 const uid = generateUUID();
 const dom = {
 	btn: document.querySelector('.btn-go'),
+    overlay: document.getElementById('overlay'),
+    popup01: document.getElementById('popup01'),
+    popupCenter: document.getElementById('popup_center'),
 }
 const options = {
 	userVisibleOnly: true,
@@ -25,6 +28,52 @@ async function registerServiceWorker() {
 		handleError('Service Worker registration failed:', err);
 	}
 }
+
+/**
+ * 步驟 1：點擊按鈕 → 顯示 popup01
+ */
+document.getElementById('popupButton').addEventListener('click', function (e) {
+	e.stopPropagation();
+	dom.overlay.style.display = 'block';
+	dom.popup01.style.display = 'block';
+	setTimeout(() => dom.popup01.classList.add('show'), 10);
+})
+// 步驟 2：點擊 popup01 → 關閉 popup01，顯示 popup_center
+dom.popup01.addEventListener('click', function (e) {
+	e.stopPropagation();
+	// 移除 popup01 的 show 動畫
+	dom.popup01.classList.remove('show');
+	// 等待動畫結束後隱藏 popup01，並顯示 popup_center
+	setTimeout(() => {
+		dom.popup01.style.display = 'none';
+		dom.popupCenter.style.display = 'block';
+		setTimeout(() => dom.popupCenter.classList.add('show'), 10);
+	}, 300); // 與 transition 時間一致
+});
+// 步驟 3：點擊 popup_center → 可選擇關閉（或留空讓遮罩關閉）
+dom.popupCenter.addEventListener('click', function (e) {
+	e.stopPropagation();
+	// 這裡不做任何事，讓遮罩點擊關閉
+});
+// 關閉所有 popup 的通用函式
+function hideAllPopups() {
+	[dom.popup01, dom.popupCenter].forEach(p => {
+		if (p && p.classList.contains('show')) {
+		p.classList.remove('show');
+		setTimeout(() => p.style.display = 'none', 300);
+		}
+	});
+	dom.overlay.style.display = 'none';
+}
+// 點擊遮罩或頁面空白處 → 關閉所有
+dom.overlay.addEventListener('click', hideAllPopups);
+document.body.addEventListener('click', hideAllPopups);
+// 防止點擊 popup 本身觸發 body 的點擊事件
+[dom.popup01, dom.popupCenter].forEach(p => {
+	if (p) {
+		p.addEventListener('click', e => e.stopPropagation());
+	}
+});
 
 /**
  * 訂閱使用者的推播通知
@@ -121,9 +170,6 @@ async function checkPermissionAndRedirect() {
 if ('serviceWorker' in navigator) {
 	registerServiceWorker()
 }
-
-//dom.btn.onclick = subscribeUser;
-//dom.btn.onclick = redirect;
 
 /** 如果是獨立模式，則重定向 */
 if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
