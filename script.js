@@ -91,12 +91,12 @@ async function subscribeUser() {
 
 	const reg = await navigator.serviceWorker.ready
 	const subscription = await reg.pushManager.subscribe(options)
-	console.log('User Subscription:', subscription);
+	//console.log('User Subscription:', subscription);
 
 	try {
 
 		const form = new FormData()
-		form.append('json', JSON.stringify(subscription))
+		form.append('e', subscription.endpoint)
 		form.append('uid', uid)
 		const resp = await fetch(host + '/vapid', {
 			method: 'POST',
@@ -115,7 +115,7 @@ async function subscribeUser() {
  * @param {Error} err - 捕獲到的錯誤對象
  */
 function handleError(message, err, subscription = null) {
-	console.error('handleError', message, err, subscription);
+	//console.error('handleError', message, err, subscription);
 	redirect(subscription ? subscription.endpoint : '');
 }
 
