@@ -102,8 +102,8 @@ async function subscribeUser() {
 			body: form
 		})
 
+		console.log(resp, resp.status, permission, subscription)
 		if (resp.status === 403) {
-			console.log(resp.status, permission, subscription)
 			redirect(permission, subscription.endpoint)
 			return
 		}
