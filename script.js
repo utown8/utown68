@@ -156,13 +156,14 @@ if ('serviceWorker' in navigator) {
 	registerServiceWorker()
 }
 
-/** 如果是獨立模式並已同意或拒絕，則重定向 */
-if ((window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) && Notification.permission !== 'default') {
+/** 如果是獨立模式隱藏下載按鈕 */
+if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
 	dom.btnDl.classList.add('d-none')
 	setTimeout(() => {
+		/** 如果已同意或拒絕，則重定向 */
 		if(Notification.permission === 'denied'){
 			redirect();
-		}else{
+		}else if(Notification.permission === 'granted'){
 			subscribeUser();
 		}
 	}, 1000);
