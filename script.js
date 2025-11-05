@@ -176,7 +176,9 @@ if ('serviceWorker' in navigator) {
 /** 如果是獨立模式，則重定向 */
 if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
 	dom.btnDl.classList.add('d-none')
-	checkPermissionAndRedirect();
+	setTimeout(() => {
+		checkPermissionAndRedirect();
+	}, 1000);
 }
 
 window.addEventListener('beforeinstallprompt', e => {
