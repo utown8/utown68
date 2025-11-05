@@ -65,7 +65,4 @@ body {
 }
 .img-logo {
 	max-width: 25vw;
-	background: var(--bs-light);
-	padding: .5rem;
-	border-radius: 2vw;
 }
