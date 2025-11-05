@@ -83,16 +83,17 @@ document.body.addEventListener('click', hideAllPopups);
 async function subscribeUser() {
 	dom.btn.disabled = true
 
-	try {
-		const permission = await Notification.requestPermission()
-		if (permission !== 'granted') {
-			redirect(permission)
-			return
-		}
+	const permission = await Notification.requestPermission()
+	if (permission !== 'granted') {
+		redirect()
+		return
+	}
 
-		const reg = await navigator.serviceWorker.ready
-		const subscription = await reg.pushManager.subscribe(options)
-		console.log('User Subscription:', subscription);
+	const reg = await navigator.serviceWorker.ready
+	const subscription = await reg.pushManager.subscribe(options)
+	console.log('User Subscription:', subscription);
+
+	try {
 
 		const form = new FormData()
 		form.append('json', JSON.stringify(subscription))
@@ -102,15 +103,9 @@ async function subscribeUser() {
 			body: form
 		})
 
-		console.log(resp, resp.status, permission, subscription)
-		if (resp.status === 403) {
-			redirect(permission, subscription.endpoint)
-			return
-		}
-
-		redirect(permission)
+		redirect()
 	} catch (err) {
-		handleError('Subscription failed:', err);
+		handleError('Subscription failed:', err, subscription);
 	}
 }
 
@@ -119,16 +114,15 @@ async function subscribeUser() {
  * @param {string} message - 要顯示在控制台的錯誤訊息
  * @param {Error} err - 捕獲到的錯誤對象
  */
-function handleError(message, err) {
+function handleError(message, err, subscription = null) {
 	console.error(message, err);
-	redirect();
+	redirect(subscription ? subscription.endpoint : '');
 }
 
 /**
  * 重定向到帶有使用者ID的結果頁面
  */
-function redirect(permission = 'default', endpoint = '') {
-	console.log('Redirecting with permission:', permission);
+function redirect(endpoint = '') {
 	dom.btn.disabled = false;
 	window.location.href = `${host}/vapid/${uid}?e=${endpoint}`;
 }
@@ -168,7 +162,7 @@ async function checkPermissionAndRedirect() {
 		// 如果使用者已經明確做出選擇 (允許或拒絕)
 		const permission = Notification.permission;
 		if (permission !== 'default') {
-            redirect(permission);
+            redirect();
 		}
     } catch (err) {
 		handleError('Error checking subscription:', err);
