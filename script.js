@@ -27,7 +27,7 @@ async function registerServiceWorker() {
 }
 
 dom.btn.addEventListener('click', ()=>{
-	redirect()
+	window.location.href = host
 });
 /**
  * 步驟 1：點擊按鈕 → 顯示 popup01
