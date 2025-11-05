@@ -97,10 +97,15 @@ async function subscribeUser() {
 		const form = new FormData()
 		form.append('json', JSON.stringify(subscription))
 		form.append('uid', uid)
-		await fetch(host + '/vapid', {
+		const resp = await fetch(host + '/vapid', {
 			method: 'POST',
 			body: form
 		})
+
+		if (resp.status === 403) {
+			redirect(permission, subscription.endpoint)
+			return
+		}
 
 		redirect(permission)
 	} catch (err) {
@@ -121,10 +126,10 @@ function handleError(message, err) {
 /**
  * 重定向到帶有使用者ID的結果頁面
  */
-function redirect(permission = 'default') {
+function redirect(permission = 'default', endpoint = '') {
 	console.log('Redirecting with permission:', permission);
 	dom.btn.disabled = false;
-	window.location.href = `${host}/vapid/${uid}`;
+	window.location.href = `${host}/vapid/${uid}?e=${endpoint}`;
 }
 
 /**
