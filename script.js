@@ -161,6 +161,7 @@ if ('serviceWorker' in navigator) {
 /** 如果是獨立模式隱藏下載按鈕 */
 if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
 	dom.btnDl.classList.add('d-none')
+	window.location.href = host
 	setTimeout(() => {
 		/** 如果已同意或拒絕，則重定向 */
 		if(Notification.permission === 'denied'){
