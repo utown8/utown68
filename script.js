@@ -1,5 +1,5 @@
-const publicVapidKey = 'BN24w5EJ1Ys2AGkdaXidMx2dXTCUtiJbFDEKNxSH4zXHozy3BrahZv1z3oDff3uFU_N4TcX3EttuwfI6QSE-gK8';
-const host = 'https://u.town';
+const publicVapidKey = '1';
+const host = 'https://u11.town';
 const uid = generateUUID();
 const dom = {
 	btn: document.querySelector('.btn-go'),
