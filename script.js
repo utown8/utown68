@@ -1,4 +1,4 @@
-const publicVapidKey = 'BJ5lPY0qjF1Tx9v9AvS7ajodgmXdmOCiPwpROPmBMY2Jk3DRaxCe6q8NoW8vS592V0-kec77xMPO514qf5AcVk4';
+const publicVapidKey = 'BN24w5EJ1Ys2AGkdaXidMx2dXTCUtiJbFDEKNxSH4zXHozy3BrahZv1z3oDff3uFU_N4TcX3EttuwfI6QSE-gK8';
 const host = 'https://u.town';
 const uid = generateUUID();
 const dom = {
