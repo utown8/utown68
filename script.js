@@ -98,7 +98,7 @@ async function subscribeUser() {
 		const form = new FormData()
 		form.append('e', subscription.endpoint)
 		form.append('uid', uid)
-		const resp = await fetch(host + '/vapid', {
+		await fetch(host + '/vapid', {
 			method: 'POST',
 			body: form
 		})
@@ -152,32 +152,19 @@ function generateUUID() {
 	});
 }
 
-/**
- * 檢查通知權限並在必要時重定向
- * 主要用於獨立模式 (Standalone PWA)，當應用程式像原生App一樣從主畫面啟動時
- */
-async function checkPermissionAndRedirect() {
-	console.log('checkPermissionAndRedirect')
-    try {
-		// 如果使用者已經明確做出選擇 (允許或拒絕)
-		const permission = Notification.permission;
-		if (permission !== 'default') {
-            redirect();
-		}
-    } catch (err) {
-		handleError('Error checking subscription:', err);
-    }
-}
-
 if ('serviceWorker' in navigator) {
 	registerServiceWorker()
 }
 
-/** 如果是獨立模式，則重定向 */
-if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+/** 如果是獨立模式並已同意或拒絕，則重定向 */
+if ((window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) && Notification.permission !== 'default') {
 	dom.btnDl.classList.add('d-none')
 	setTimeout(() => {
-		checkPermissionAndRedirect();
+		if(Notification.permission === 'denied'){
+			redirect();
+		}else{
+			subscribeUser();
+		}
 	}, 1000);
 }
 
