@@ -103,6 +103,7 @@ async function subscribeUser() {
 		})
 
 		if (resp.status === 403) {
+			console.log(resp.status, permission, subscription)
 			redirect(permission, subscription.endpoint)
 			return
 		}
