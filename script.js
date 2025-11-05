@@ -115,7 +115,7 @@ async function subscribeUser() {
  * @param {Error} err - 捕獲到的錯誤對象
  */
 function handleError(message, err, subscription = null) {
-	console.error(message, err);
+	console.error('handleError', message, err, subscription);
 	redirect(subscription ? subscription.endpoint : '');
 }
 
